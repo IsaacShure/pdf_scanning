@@ -4,14 +4,6 @@ import pypdf
 import pytesseract
 import itertools
 
-parser = argparse.ArgumentParser(description="Merge all pdf files in a directory, automatically rotating pages with pytesseract ocr")
-parser.add_argument('input_directory', nargs='1', help="Directory containing pdf files to merge and autorotate")
-parser.add_argument('--output', '-o', required=True, help='Output filename')
-parser.add_argument('--newest-first', '-n', action='store_true', help='Order merged pdf by newest files first.')
-parser.add_argument('--disable-autorotate', '-d', action='store_true', help='Disables ocr page autorotation.')
-
-args = parser.parse_args()
-
 
 def get_pdfs(input_directory, newest_first=True):
     files = os.listdir(input_directory)
@@ -36,7 +28,15 @@ def autorotate_pdf(filename):
 
     return pages
 
-if __name__ == "__main__":
+def main():
+    parser = argparse.ArgumentParser(description="Merge all pdf files in a directory, automatically rotating pages with pytesseract ocr")
+    parser.add_argument('input_directory', nargs='1', help="Directory containing pdf files to merge and autorotate")
+    parser.add_argument('--output', '-o', required=True, help='Output filename')
+    parser.add_argument('--newest-first', '-n', action='store_true', help='Order merged pdf by newest files first.')
+    parser.add_argument('--disable-autorotate', '-d', action='store_true', help='Disables ocr page autorotation.')
+
+    args = parser.parse_args()
+
     writer = pypdf.PdfWriter()
     pdf_filenames = get_pdfs(args.input_directory, newest_first=args.newest_first)
 
@@ -51,3 +51,5 @@ if __name__ == "__main__":
     with open(args.output, "wb") as f:
         writer.write(f)
     
+if __name__ == "__main__":
+    main()

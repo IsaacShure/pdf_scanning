@@ -3,14 +3,6 @@ import pypdf
 import itertools
 from collections.abc import Sequence
 
-parser = argparse.ArgumentParser(description="Rotate pages in a pdf file")
-parser.add_argument('filename', nargs=1, help="pdf file to modify")
-parser.add_argument('page_rotations', nargs='+',type=int, help="Specify pages to rotate as follows: '[page #] [rotation] [page #] [rotation]...' Page numbers start from 1 and rotations are in clockwise degrees.")
-
-args = parser.parse_args()
-
-if len(args.page_rotations) % 2 != 0:
-    parser.error(f"Received {len(args.page_rotations)} page rotations, expected an even number. Please provide page rotations in the form '[page #] [rotation] [page #] [rotation] etc.'")
 
     
 def rotate_pages(filename, page_numbers, rotations):
@@ -47,7 +39,16 @@ def is_valid_rotation(rotation):
     except:
         return False
 
-if __name__ == "__main__":
+def main():
+    parser = argparse.ArgumentParser(description="Rotate pages in a pdf file")
+    parser.add_argument('filename', nargs=1, help="pdf file to modify")
+    parser.add_argument('page_rotations', nargs='+',type=int, help="Specify pages to rotate as follows: '[page #] [rotation] [page #] [rotation]...' Page numbers start from 1 and rotations are in clockwise degrees.")
+
+    args = parser.parse_args()
+
+    if len(args.page_rotations) % 2 != 0:
+        parser.error(f"Received {len(args.page_rotations)} page rotations, expected an even number. Please provide page rotations in the form '[page #] [rotation] [page #] [rotation] etc.'")
+
     page_numbers = args.page_rotations[::2]
     rotations = args.page_rotations[1::2]
 
@@ -60,3 +61,6 @@ if __name__ == "__main__":
             parser.error(f"Provided rotation {rotation} is invalid")
 
     rotate_pages(args.filename[0], page_numbers, rotations)
+
+if __name__ == "__main__":
+    main()
