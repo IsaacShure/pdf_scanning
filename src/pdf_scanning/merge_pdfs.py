@@ -38,7 +38,7 @@ def main():
     args = parser.parse_args()
 
     writer = pypdf.PdfWriter()
-    pdf_filenames = get_pdfs(args.input_directory, newest_first=args.newest_first)
+    pdf_filenames = get_pdfs(args.input_directory[0], newest_first=args.newest_first)
 
     if args.disable_autorotate:
         pages = itertools.chain.from_iterable([pypdf.PdfReader(filename).pages for filename in pdf_filenames])
