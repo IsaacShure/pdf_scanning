@@ -1,0 +1,12 @@
+[project]
+name = "pdf-scraping"
+version = "1.0.0"
+dependencies = [
+    "pypdf==5.5.0",
+    "pdf2image==1.17.0",
+    "pytesseract==0.3.13"
+]
+
+[project.scripts]
+merge-pdfs = "pdf_scanning:merge_pdfs"
+rotate-pdf = "pdf_scanning:rotate_pdf"

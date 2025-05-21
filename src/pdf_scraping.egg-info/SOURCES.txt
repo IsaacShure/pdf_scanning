@@ -1,0 +1,11 @@
+README.md
+pyproject.toml
+src/pdf_scanning/__init__.py
+src/pdf_scanning/merge_pdfs.py
+src/pdf_scanning/rotate_pdf.py
+src/pdf_scraping.egg-info/PKG-INFO
+src/pdf_scraping.egg-info/SOURCES.txt
+src/pdf_scraping.egg-info/dependency_links.txt
+src/pdf_scraping.egg-info/entry_points.txt
+src/pdf_scraping.egg-info/requires.txt
+src/pdf_scraping.egg-info/top_level.txt
