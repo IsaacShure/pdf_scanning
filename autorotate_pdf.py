@@ -1,23 +1,16 @@
-import logging
 import os
 import argparse
 import pypdf
 import pytesseract
 import itertools
 
-logger = logging.getLogger(__name__)
-parser = argparse.ArgumentParser(description="Automatically rotate pages in pdf files using pytesseract")
-parser.add_argument('filenames', nargs='+', help="Files to autorotate")
-inplace_or_output_group = parser.add_mutually_exclusive_group(required=True)
-inplace_or_output_group.add_argument('--output', '-o', help='Output filename')
-inplace_or_output_group.add_argument('--inplace', action='store_true', help='Modify files in place')
+parser = argparse.ArgumentParser(description="Merge all pdf files in a directory, automatically rotating pages with pytesseract ocr")
+parser.add_argument('input_directory', nargs='1', help="Directory containing pdf files to merge and autorotate")
+parser.add_argument('--output', '-o', required=True, help='Output filename')
 parser.add_argument('--newest-first', '-n', action='store_true', help='Order merged pdf by newest files first.')
+parser.add_argument('--disable-autorotate', '-d', action='store_true', help='Disables ocr page autorotation.')
 
 args = parser.parse_args()
-
-if args.newest_first and args.inplace:
-    logger.warning("Warning: ignoring merge modifier --newest-first due to specification of mergeless --inplace manipulation")
-
 
 
 def get_pdfs(input_directory, newest_first=True):
@@ -44,4 +37,17 @@ def autorotate_pdf(filename):
     return pages
 
 if __name__ == "__main__":
-    print(args)
+    writer = pypdf.PdfWriter()
+    pdf_filenames = get_pdfs(args.input_directory, newest_first=args.newest_first)
+
+    if args.disable_autorotate:
+        pages = itertools.chain.from_iterable([pypdf.PdfReader(filename).pages for filename in pdf_filenames])
+    else: 
+        pages = itertools.chain.from_iterable([autorotate_pdf(filename) for filename in pdf_filenames])
+
+    for page in pages:
+        writer.add_page(page)
+
+    with open(args.output, "wb") as f:
+        writer.write(f)
+    
