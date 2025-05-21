@@ -1,0 +1,4 @@
+marimo
+pypdf
+pdf2image
+pytesseract
