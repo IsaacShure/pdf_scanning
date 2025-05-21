@@ -1,10 +1,11 @@
 import argparse
 import pypdf
 import itertools
+from collections.abc import Sequence
 
 parser = argparse.ArgumentParser(description="Rotate pages in a pdf file")
 parser.add_argument('filename', nargs=1, help="pdf file to modify")
-parser.add_argument('page_rotations', nargs='+', help="Specify pages to rotate as follows: '[page #] [rotation] [page #] [rotation]...' Page numbers start from 1 and rotations are in clockwise degrees.")
+parser.add_argument('page_rotations', nargs='+',type=int, help="Specify pages to rotate as follows: '[page #] [rotation] [page #] [rotation]...' Page numbers start from 1 and rotations are in clockwise degrees.")
 
 args = parser.parse_args()
 
@@ -20,7 +21,7 @@ def rotate_pages(filename, page_numbers, rotations):
     pages = pypdf.PdfReader(filename).pages
 
     for page_number, rotation in zip(page_numbers, rotations):
-        pages[page_number].rotate(rotation)
+        pages[page_number-1].rotate(rotation)
 
     writer = pypdf.PdfWriter()
 
@@ -58,4 +59,4 @@ if __name__ == "__main__":
         if not is_valid_rotation(rotation):
             parser.error(f"Provided rotation {rotation} is invalid")
 
-    rotate_pages(args.filename, page_numbers, rotations)
+    rotate_pages(args.filename[0], page_numbers, rotations)
