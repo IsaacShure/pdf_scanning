@@ -1,5 +1,5 @@
 [project]
-name = "pdf-scraping"
+name = "pdf-scanning-utils"
 version = "1.0.0"
 dependencies = [
     "pypdf==5.5.0",
