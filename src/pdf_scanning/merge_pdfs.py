@@ -1,6 +1,7 @@
 import os
 import argparse
 import pypdf
+impot pdf2image
 import pytesseract
 import itertools
 
