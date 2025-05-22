@@ -3,7 +3,11 @@ import argparse
 import pypdf
 import pdf2image
 import pytesseract
+from pytesseract.pytesseract import TesseractError
 import itertools
+import logging
+
+logger = logging.getLogger(__name__)
 
 
 def get_pdfs(input_directory, newest_first=True):
@@ -19,7 +23,13 @@ def autorotate_pdf(filename):
     pages = []
 
     for page, image in zip(reader.pages, images):
-        osd = pytesseract.image_to_osd(image, output_type=pytesseract.Output.DICT)
+        try:
+            osd = pytesseract.image_to_osd(image, output_type=pytesseract.Output.DICT)
+        except TesseractError:
+            logger.warning(f"tesseract encountered an error processing {filename}, page will not be auto-rotated")
+            pages.append(page)
+            continue
+
         rotation = int(osd['rotate'])
 
         if rotation != 0:
