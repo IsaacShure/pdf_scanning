@@ -1,3 +1,0 @@
-[console_scripts]
-merge-pdfs = pdf_scanning:merge_pdfs
-rotate-pdf = pdf_scanning:rotate_pdf

@@ -1,6 +1,0 @@
-Metadata-Version: 2.4
-Name: pdf-scraping
-Version: 1.0.0
-Requires-Dist: pypdf==5.5.0
-Requires-Dist: pdf2image==1.17.0
-Requires-Dist: pytesseract==0.3.13
