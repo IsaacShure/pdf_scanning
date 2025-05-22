@@ -1,10 +1,10 @@
 # CLI utilities for pdf scanning
 
-### `merge_pdfs`
+### `merge-pdfs`
 
 Merges all pdf files in a directory into a single pdf, using pytesseract ocr to automatically correct the orientation of each page.
 
-### `rotate_pdf`
+### `rotate-pdf`
 
 Rotates individual pages in a pdf file by a specified amount
 
